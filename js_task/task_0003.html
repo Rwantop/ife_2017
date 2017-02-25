@@ -81,9 +81,10 @@ function sortAqiData(data) {
  */
 function render(data) {
 	 data.forEach(function (item, index, array) {
-		 var text = "第" + (index+1) + "名："+item[0] + "空气质量:" + item[1];
+		 sorts = ['一', '二', '三', '四', '五', '六', '七'];
+		 var text = "第" + sorts[index] + "名："+item[0] + "空气质量:<b>" + item[1] + "</b>";
 		 var newL = document.createElement('li');
-	     newL.appendChild(document.createTextNode(text));
+	     newL.innerHTML = text;	
 	     document.getElementById("resort").appendChild(newL);
   });	
 }
