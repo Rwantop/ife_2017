@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style type="text/css">
+	#control {
+		width:100%;
+		display: inline-flex;
+		padding-left:10px; 
+	}
+	#control div{
+		margin-left: 10px;
+		border-bottom: 1px dashed #b2b2b2;
+		cursor: pointer;
+	}
+	#list div{
+		height: 50px;
+		width: 50px;
+		background-color: #cceedd;
+		color: #ffaeae;
+		vertical-align: center;
+		text-align: center;
+		line-height: 50px;
+		margin-top: 10px;
+		margin-left: 10px;
+		float:left;
+	}
+</style>
+<body>
+	<input id="num" type="text" style="height:10px;width:100px;"></input>
+	<div id="control">
+	<div onclick="EventAction('leftIn')">左侧入</div>
+	<div onclick="EventAction('rightIn')">右侧入</div>
+	<div onclick="EventAction('leftOut')" style="margin-left: 20px;">左侧出</div>
+	<div onclick="EventAction('rightOut')">右侧出</div>
+	</div>
+	<div id="list">
+	</div>
+</body>
+<script type="text/javascript">
+	function createElement (number){
+		var NewDiv = document.createElement("div");
+		NewDiv.innerText = number;
+		return NewDiv;
+	}
+
+
+	function EventAction (action) {
+		var parent = document.getElementById("list");
+		switch (action) {
+			case "leftIn":
+				var num = document.getElementById("num").value;
+				if(!isNaN(num) && num != ""){
+					var Ndiv = createElement(num);
+					parent.insertBefore(Ndiv, parent.firstChild);
+				}
+				break;
+			case "rightIn":
+				var num = document.getElementById("num").value;
+				if(!isNaN(num) && num != null){
+					var Ndiv = createElement(num);
+					parent.appendChild(Ndiv);
+				}
+				break;
+			case "leftOut":
+				var parent = document.getElementById("list");
+				alert(parent.firstChild.innerText);
+				parent.removeChild(parent.firstChild);
+				break;
+			case "rightOut":
+				var parent = document.getElementById("list");
+				alert(parent.lastChild.innerText);
+				parent.removeChild(parent.lastChild);
+				break;
+		}
+	}
+
+</script>
+</html>
