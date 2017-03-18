@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style type="text/css">
+	#control {
+		width:100%;
+		display: inline-flex;
+		padding-left:10px; 
+	}
+	#control div{
+		margin-left: 10px;
+		border-bottom: 1px dashed #b2b2b2;
+		cursor: pointer;
+	}
+	#list div{
+		height: 50px;
+		width: 50px;
+		background-color: #cceedd;
+		color: #ffaeae;
+		vertical-align: center;
+		text-align: center;
+		line-height: 50px;
+		margin-top: 10px;
+		margin-left: 10px;
+		float:left;
+	}
+</style>
+<body>
+	<input id="num" type="text" style="height:10px;width:100px;"></input>
+	<div id="control">
+	<div onclick="EventAction('In')">插入</div>
+	<div onclick="EventAction('leftOut')" style="margin-left: 20px;">左侧出</div>
+	<div onclick="EventAction('rightOut')">右侧出</div>
+	</div>
+	<div id="list">
+	</div>
+</body>
+<script type="text/javascript">
+	function createElement (number){
+		var NewDiv = document.createElement("div");
+		NewDiv.innerText = number;
+		NewDiv.style.height = number + 'px';
+		return NewDiv;
+	}
+
+	function check_num (number) {
+ 		return number>10 && number <100 ? true : false;
+	}
+
+
+	function EventAction (action) {
+		var parent = document.getElementById("list");
+		switch (action) {
+			case "In":
+				var num = document.getElementById("num").value;
+				if(!isNaN(num) && num != ""){
+					if(check_num(num)){
+						var Ndiv = createElement(num);
+						var i = 1;
+						while(i){
+							var children = parent.querySelectorAll("div");
+							if (children.length == 0) {
+								parent.insertBefore(Ndiv, parent.firstChild);
+							} else {
+								for(var y = 0;y < children.length; y++){
+									if (children[y].innerText>=num){
+										parent.insertBefore(Ndiv,parent.childNodes[y]);
+										break;
+									} else if (y == children.length -1 ) {
+										parent.insertBefore(Ndiv, parent.childNodes[children.length]);
+									}
+									console.log(children[y].innerText);
+
+
+								}
+								//parent.insertBefore(Ndiv, parent.childNodes[children.length]);
+							}
+							
+							break;
+						}
+						//parent.insertBefore(Ndiv, parent.firstChild);
+					} else {
+						alert("数字要在10-100之间");
+					}
+					
+				}
+				break;
+			case "leftOut":
+				var parent = document.getElementById("list");
+				alert(parent.firstChild.innerText);
+				parent.removeChild(parent.firstChild);
+				break;
+			case "rightOut":
+				var parent = document.getElementById("list");
+				alert(parent.lastChild.innerText);
+				parent.removeChild(parent.lastChild);
+				break;
+		}
+	}
+
+</script>
+</html>
