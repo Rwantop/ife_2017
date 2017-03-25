@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>task06</title>
+    <style>
+        #content {
+            width: 1000px;
+            margin: 0 auto
+        }
+        
+        #view {
+            /*border: 1px solid #ccc;
+            padding: 5px;*/
+            margin: 20px
+        }
+        
+        #view>.item {
+            display: inline-block;
+            background: #ababcd	;
+            color: #fff;
+            padding: 5px 10px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <div class="input-content">
+            <h3>内容设置</h3>
+            <p>如果要输入多个内容，请用回车，空格，逗号，顿号分隔</p>
+            <textarea id='user-input' cols="10" rows="5" placeholder="请输入"></textarea>
+            <button onclick="userInput('LEFT_ADD')" type="button">左侧进</button>
+            <button onclick="userInput('RIGHT_ADD')" type="button">右侧进</button>
+            <button onclick="userInput('LEFT_DEL')" type="button">左侧出</button>
+            <button onclick="userInput('RIGHT_DEL')" type="button">右侧出</button>
+        </div>
+        <div>
+            <h3>查询</h3>
+            <input id="search-input" type="text" placeholder="请输入查询内容">
+            <button onclick="search()">搜索</button>
+        </div>
+        <div id="view">
+        </div>
+    </div>
+    <script>
+        //队列数组
+        var arr = [];
+        var $ = function (e) {
+            return document.querySelectorAll(e);
+        }
+        //获取val并清空输入框
+        function userInput(type, index) {
+            var val = [];
+            var input = document.getElementById('user-input');
+            var value = input.value;
+            input.value = "";
+            val = value.match(/[\w|\u4e00-\u9fa5]+/g);
+            for (var i = 0; i < val.length; i++) {
+                changeArr(val[i], type, index);
+            }
+        }
+        //渲染dom
+        function render() {
+            var html = '';
+            for (var i = 0; i < arr.length; i++) {
+                html += `<div class="item">${arr[i]}</div>`
+            }
+            document.getElementById('view').innerHTML = html;
+        }
+        //弹窗
+        function dialog(msg) {
+            alert(msg);
+        }
+        //数组处理
+        function changeArr(val, type, index) {
+            switch (type) {
+                case 'LEFT_ADD':
+                    arr.unshift(val);
+                    break;
+                case 'RIGHT_ADD':
+                    arr.push(val);
+                    break;
+                case 'LEFT_DEL':
+                    dialog(arr.shift());
+                    break;
+                case 'RIGHT_DEL':
+                    dialog(arr.pop());
+                    break;
+            }
+            render();
+        }
+        //查询
+        function search() {
+            var input = $('#search-input')[0];
+            var reg = new RegExp(`${input.value}`, "g");
+            for (var i = 0; i < arr.length; i++) {
+                var html = arr[i].replace(reg, '<span style="color:red">$&</span>');
+                console.log(arr[i])
+                $('.item')[i].innerHTML = html;
+                if (reg.test(arr[i])) {
+                    $('.item')[i].style.backgroundColor = '#6a6ccd';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
